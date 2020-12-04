@@ -6,7 +6,7 @@ enabled_features:
   - lacp
   - vpc
   - interface-vlan
-#  - nxapi
+  - nxapi
   - udld
   - lldp
 #
