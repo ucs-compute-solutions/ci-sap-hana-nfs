@@ -1,0 +1,14 @@
+---
+# FlexPod HANA Playbook
+#
+- hosts: n9k
+  connection: network_cli
+  gather_facts: no
+  tasks:
+    - name: Create VLANs
+      nxos_vlans:
+        config:
+          - vlan_id: "{{ item.id }}"
+            name: "{{ item.name }}"
+        state: merged
+      with_list: "{{ vlans_list }}"

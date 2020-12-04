@@ -1,0 +1,8 @@
+---
+# FlexPod HANA complete Nexus Config
+- import_playbook: 00-backup-config.yml  
+- import_playbook: 01-features-gobal-settings.yml  
+- import_playbook: 02-create-vlans.yml  
+- import_playbook: 03-set-nxos-interfaces.yml  
+- import_playbook: 04-configure-nxos-vpc.yml  
+- import_playbook: 05-save-config.yml 

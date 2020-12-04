@@ -1,0 +1,128 @@
+---
+# 01 Enable required Nexus features and Configure global settings on Nexus devices
+backup_dir: "~/"
+#
+enabled_features:
+  - lacp
+  - vpc
+  - interface-vlan
+#  - nxapi
+  - udld
+  - lldp
+#
+global_settings:
+  - spanning-tree port type network default
+  - spanning-tree port type edge bpduguard default
+  - spanning-tree port type edge bpdufilter default
+#  - port-channel load-balance src-dst l4port
+  - system default switchport
+#  - system default switchport shutdown
+#
+# 02 Create VLANs 
+#
+vlans_list:
+  - name: iSCSI-A
+    id: '2128'
+  - name: iSCSI-B
+    id: '2129'
+  - name: IB-Mgmt
+    id: '210'
+  - name: NFS_Data
+    id: '2201'
+  - name: NFS_log
+    id: '2228'
+  - name: Server
+    id: '2220'
+  - name: DataSource
+    id: '2221'
+  - name: Client
+    id: '2222'
+  - name: AppServer
+    id: '2223'
+  - name: Backup
+    id: '2224'
+  - name: SysRep
+    id: '2225'
+  - name: NFS_Shared
+    id: '2111'
+
+#
+# VLANs definition below will be used to setup trunk ports on Nexus Switches
+# all_vlans_list: for vpc_peer_link and UCS FI trunk ports
+all_vlans_list: "2128,2129,210,2201,2228,2220,2221,2222,2223,2224,2225,2111"
+# netapp_vlans_list: for vpc_peer_link and UCS FI trunk ports
+netapp_vlans_list: "2220,2228,2111"
+# mgmt_vlans_list: for management switch trunk port
+mgmt_vlans_list: "210"
+#
+# 03 Configure Interface and Port-Channel
+#
+mgmt_interface_list:
+  - interface: "Ethernet1/5"
+
+vpc_interface_list:
+  - interface:  "Ethernet1/13"
+  - interface:  "Ethernet1/14"
+#
+FI_A_interface_list:
+  - interface:  "Ethernet1/45"
+#
+FI_B_interface_list:
+  - interface:  "Ethernet1/46"
+#
+netapp_A_interface_list:
+  - interface:  "Ethernet1/23"
+#
+netapp_B_interface_list:
+  - interface:  "Ethernet1/24"
+#
+all_interfaces: "{{ mgmt_interface_list + vpc_interface_list + FI_A_interface_list + FI_B_interface_list + netapp_A_interface_list + netapp_B_interface_list }}"
+#
+mgmt_PC:
+  - interface: "port-channel5"
+    # id must be same as port-channel number
+    id: "5"
+    speed: "auto"
+    duplex: "auto"
+#
+peerlink_PC:
+  - interface: "port-channel60"
+    # id must be same as port-channel number
+    id: "60"
+    speed: "25000"
+    duplex: "full"
+#
+FI_A_PC:
+  - interface: "port-channel35"
+    # id must be same as port-channel number
+    id: "15"
+    speed: "25000"
+    duplex: "full"
+#
+FI_B_PC:
+  - interface: "port-channel36"
+    # id must be same as port-channel number
+    id: "16"
+    speed: "25000"
+    duplex: "full"
+#
+netapp_A_PC:
+  - interface: "port-channel23"
+    # id must be same as port-channel number
+    id: "23"
+    speed: "auto"
+    duplex: "auto"
+#
+netapp_B_PC:
+  - interface: "port-channel24"
+    # id must be same as port-channel number
+    id: "24"
+    speed: "auto"
+    duplex: "auto"
+#
+all_port_channels: "{{ peerlink_PC + mgmt_PC + FI_A_PC + FI_B_PC + netapp_A_PC + netapp_B_PC }}"
+#
+# VPC Parameters
+#
+vpc_domain_id: "60"
+#

@@ -1,0 +1,12 @@
+---
+# FlexPod HANA Playbook
+#
+- hosts: n9k
+  connection: network_cli
+  gather_facts: no
+  tasks:
+  - name: Backup of the current running config before deploying changes to the device
+    nxos_config:
+      backup: yes
+      backup_options:
+        dir_path: "{{ backup_dir }}"

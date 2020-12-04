@@ -1,0 +1,16 @@
+---
+# FlexPod HANA Playbook
+#
+- hosts: n9k
+  connection: network_cli
+  gather_facts: no
+  tasks:
+    - name: Enable NX-OS features
+      nxos_feature:
+        state: "{{ nx_state }}"
+        feature: "{{ item }}"
+      with_items: "{{ enabled_features }}"
+    
+    - name: Configure NX-OS global settings
+      nxos_config:
+        lines: "{{ global_settings }}"

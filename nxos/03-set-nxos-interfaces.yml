@@ -1,0 +1,116 @@
+---
+# FlexPod HANA Playbook
+#
+- hosts: n9k
+  connection: network_cli
+  gather_facts: no
+  tasks:
+  - name: Enabling all ethernet and port-channel interfaces
+    nxos_interfaces:
+      config:
+        - name: "{{ item.interface }}"
+          mode: layer2
+          enabled: yes
+    with_list: "{{ all_interfaces + all_port_channels }}"
+  - name: Add Ports to peer-link Port-Channel
+    nxos_lag_interfaces:
+      config:
+        - name: "{{ peerlink_PC[0].interface }}"
+          members:
+            - member: "{{ item.interface }}"
+              mode: active
+    with_list: "{{ vpc_interface_list }}"
+  - name: Add Ports to management switch Port-Channel
+    nxos_lag_interfaces:
+      config:
+        - name: "{{ mgmt_PC[0].interface }}"
+          members:
+            - member: "{{ item.interface }}"
+              mode: active
+    with_list: "{{ mgmt_interface_list  }}"
+  - name: Add Ports to FI-A Port-Channel
+    nxos_lag_interfaces:
+      config:
+        - name: "{{ FI_A_PC[0].interface }}"
+          members:
+            - member: "{{ item.interface }}"
+              mode: active
+    with_list: "{{ FI_A_interface_list }}"
+  - name: Add Ports to FI-B Port-Channel
+    nxos_lag_interfaces:
+      config:
+        - name: "{{ FI_B_PC[0].interface }}"
+          members:
+            - member: "{{ item.interface }}"
+              mode: active
+    with_list: "{{ FI_B_interface_list }}"
+  - name: Add Ports to NetApp Storage-A Port-Channel
+    nxos_lag_interfaces:
+      config:
+        - name: "{{ netapp_A_PC[0].interface }}"
+          members:
+            - member: "{{ item.interface }}"
+              mode: active
+    with_list: "{{ netapp_A_interface_list }}"
+  - name: Add Ports to NetApp Storage-B Port-Channel
+    nxos_lag_interfaces:
+      config:
+        - name: "{{ netapp_B_PC[0].interface }}"
+          members:
+            - member: "{{ item.interface }}"
+              mode: active
+    with_list: "{{ netapp_B_interface_list }}"
+  - name: Modify the mtu speed and duplex for ports
+    nxos_interfaces:
+      config:
+        - name: "{{ item.interface }}"
+          mtu: "9216"
+          speed: "{{ item.speed }}"
+          duplex: "{{ item.duplex }}"
+    with_list: "{{ all_port_channels }}"
+#
+# Configure Trunk VLANs for Peer-Link and UCS FI Port-Channels
+#
+  - name: Enabling all vlans on peer-link and UCS FI Port-Channels
+    nxos_l2_interfaces:
+      config:
+        - name: "{{ item.interface }}"
+          trunk:
+            allowed_vlans: "{{ all_vlans_list }}"
+    with_list: "{{ peerlink_PC + FI_A_PC + FI_B_PC }}"
+#
+# Configure VLANs mgmt Port-Channels
+#
+  - name: Enabling management vlans on management Port-Channels
+    nxos_l2_interfaces:
+      config:
+        - name: "{{ item.interface }}"
+          trunk:
+            allowed_vlans: "{{ mgmt_vlans_list }}"
+    with_list: "{{ mgmt_PC }}"
+#
+# Configure VLANs for netapp Port-Channels
+#
+  - name: Enabling netapp vlans on Storage Port-Channels
+    nxos_l2_interfaces:
+      config:
+        - name: "{{ item.interface }}"
+          trunk:
+            allowed_vlans: "{{ netapp_vlans_list }}"
+    with_list: "{{ netapp_A_PC + netapp_B_PC }}"
+
+# "switchport mode trunk" on all Port-Channels
+  - name: Set - switchport mode trunk
+    nxos_config:
+      lines:
+        - switchport mode trunk
+      parents: interface {{ item.interface }}
+    with_list: "{{ all_port_channels }}"
+#
+# "Spanning-tree port type edge trunk" on FI and Storage Port-Channels
+  - name: Set - spanning-tree port type edge trunk
+    nxos_config:
+      lines:
+        - spanning-tree port type edge trunk
+      parents: interface {{ item.interface }}
+    with_list: "{{ FI_A_PC + FI_B_PC + netapp_A_PC + netapp_B_PC }}"
