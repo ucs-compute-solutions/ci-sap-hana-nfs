@@ -1,0 +1,50 @@
+---
+# OS Configuration for HANA Playbook
+- name: Package Installation and Update
+  hosts: hanaserver
+  become: yes  
+#  remote_user: root
+  tasks:
+  
+  - name: upgrade all packages
+    yum:
+      name: '*'
+      state: latest
+  - name: check if server package group is installed
+    yum:
+      name: "@server"
+      state: latest
+  - name: install required packages for HANA
+    yum:
+      state: latest
+      name: 
+        - uuidd 
+        - libnsl 
+        - tcsh 
+        - psmisc 
+        - nfs-utils 
+        - bind-utils 
+        - expect 
+        - graphviz 
+        - iptraf-ng 
+        - krb5-workstation 
+        - libatomic 
+        - libcanberra-gtk2 
+        - libibverbs 
+        - libicu 
+        - libpng12 
+        - libssh2  
+        - lm_sensors 
+        - numactl 
+        - PackageKit-gtk3-module 
+        - xorg-x11-xauth 
+        - bind-utils 
+        - cairo 
+        - libaio 
+        - krb5-libs 
+        - net-tools 
+        - openssl 
+        - rsyslog 
+        - sudo 
+        - xfsprogs
+        - compat-sap-c++-*

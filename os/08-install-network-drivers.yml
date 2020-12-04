@@ -1,0 +1,17 @@
+---
+# OS Configuration for HANA Playbook
+- hosts: hanaserver
+  remote_user: root
+#  collections: ansible-base
+  tasks:
+    - name: Copy enic and fnic drivers from config_files to each host
+      copy:
+        src: "{{ item }}"
+        dest: /opt/drivers/
+        owner: root
+        group: root
+        mode: '0755'
+      with_fileglob:
+        - "config_files/drivers/*.rpm"
+    - name: Install enic and fnic drivers from /opt/
+      shell: rpm -ivh /opt/drivers/*.rpm

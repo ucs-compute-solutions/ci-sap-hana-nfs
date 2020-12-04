@@ -1,0 +1,75 @@
+---
+# OS Configuration for HANA Playbook
+- hosts: hanaserver
+  remote_user: root
+#  collections: ansible-base
+  tasks:
+    - name: Check if PMEM are available 
+      command: 'ipmctl show -dimm'
+      register: show_PMEM_result 
+    - debug:
+        var: show_PMEM_result.stdout_lines
+
+    - name: Create interleaved region for App Direct mode
+      command: 'ipmctl create -f -goal'
+      register: create_goal_result 
+    - debug:
+        var: create_goal_result.stdout_lines
+
+    - name: Reboot the server to process new memory allocation goals
+      reboot:
+
+    - name: Display the regions created
+      command: 'ipmctl show -region'
+      register: show_region_result
+    - debug:
+        var: show_region_result.stdout_lines
+
+    - name: Create name spaces.
+      command: "{{ item }}"
+      loop:
+        - 'ndctl create-namespace'
+        - 'ndctl create-namespace'
+        - 'ndctl create-namespace'
+        - 'ndctl create-namespace'
+    
+    - name: Display the list all the active name spaces.
+      command: 'ndctl list'
+      register: namespace_result
+    - debug:
+        var: namespace_result.stdout_lines
+
+    - name: Create the XFS file system on PMEM devices
+      community.general.filesystem:
+        fstype: xfs
+        force: yes
+        opts: '-d su=2m,sw=1 -m reflink=0'
+        dev: "{{ item }}" 
+      loop:
+        - '/dev/pmem0'
+        - '/dev/pmem1'
+        - '/dev/pmem2'
+        - '/dev/pmem3'
+   
+    - name: Mount the PMEM block devices
+      mount:
+        path: "{{ item.mount_path }}"
+        src: "{{ item.mount_dev }}"
+        fstype: xfs
+        opts: 'dax,lazytime'
+        state: mounted
+        backup: yes
+      loop: 
+        - { mount_path: /hana/pmem/nvmem0, mount_dev: /dev/pmem0 }
+        - { mount_path: /hana/pmem/nvmem1, mount_dev: /dev/pmem1 }
+        - { mount_path: /hana/pmem/nvmem2, mount_dev: /dev/pmem2 }
+        - { mount_path: /hana/pmem/nvmem3, mount_dev: /dev/pmem3 }
+
+    - name: Change the permission on mounted PMEM
+      file:
+        path: /hana/pmem
+#        owner: <sid>adm
+#        group: sapsys
+        recurse: yes
+        state: directory
+        mode: '0777'

@@ -1,0 +1,20 @@
+---
+###
+# 01 Set IP Address
+###
+ip_list:
+  - vnic: eth1
+    ipv4: '172.29.220.93/24'
+#    gw4: '172.29.220.1'
+  - vnic: eth2
+    ipv4: '172.29.223.93/24'
+  - vnic: eth3
+    ipv4: '172.29.201.93/24'
+  - vnic: eth4
+    ipv4: '172.29.228.93/24'
+  - vnic: eth5
+    ipv4: '172.29.224.93/24'
+###
+# 03 Set Hostname
+###
+hana_hostname_short: cishana93

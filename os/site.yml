@@ -1,0 +1,16 @@
+---
+# Configure the OS for HANA from the inventory list
+# /etc/hosts file need to adapted for each host, example file is in config_files directory
+##
+
+- import_playbook: 01-set-ip-address.yml
+- import_playbook: 02-set-ntp.yml
+- import_playbook: 03-set-hostname.yml
+- import_playbook: 04-registration.yml
+- import_playbook: 05-package-update.yml
+- import_playbook: 99-reboot.yml
+- import_playbook: 06-sap-hana-config.yml
+- import_playbook: 07-regenerate-grub.yml
+- import_playbook: 08-install-network-drivers.yml
+- import_playbook: 99-reboot.yml
+- import_playbook: 21-mount-nfs.yml

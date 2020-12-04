@@ -1,0 +1,14 @@
+---
+# OS Configuration for HANA Playbook
+- hosts: hanaserver
+  remote_user: root
+#  collections: ansible-base
+  tasks:
+    - name: Copy chrony.conf file from config_files to each host
+      copy:
+        src: config_files/chrony.conf
+        dest: /etc/chrony.conf
+        owner: root
+        group: root
+        mode: '0644'
+        backup: yes

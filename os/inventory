@@ -1,0 +1,5 @@
+[hanaserver]
+hana-su-01 ansible_host=192.168.10.98
+#hana-su-02 ansible_host=192.168.10.97
+#hana-so-01 ansible_host=192.168.10.92
+#hana-so-02 ansible_host=192.168.10.93

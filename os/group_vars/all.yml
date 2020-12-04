@@ -1,0 +1,6 @@
+---
+##
+# 04. Registration Username and password
+#
+rhel_username: << rhel_username >>
+rhel_password: << rhel_password >>

@@ -1,0 +1,36 @@
+---
+###
+# 01 Set IP Address
+###
+ip_list:
+  - vnic: eth1
+    ipv4: '172.29.220.92/24'
+#    gw4: ''
+#    dns4: '172.29.55.1 172.29.34.4'
+#    mtu: 1500
+  - vnic: eth2
+    ipv4: '172.29.223.92/24'
+  - vnic: eth3
+    ipv4: '172.29.201.92/24'
+  - vnic: eth4
+    ipv4: '172.29.228.92/24'
+  - vnic: eth5
+    ipv4: '172.29.224.92/24'
+###
+# 03 Set Hostname
+###
+hana_hostname_short: cishana92
+###
+# 21 Mount NFS Volumes
+mount_list: 
+  - ntap_vol_name: "172.29.201.21:/NF2_data_mnt00001"
+    mount_path: "/hana/data/NF2/mnt00001"
+  - ntap_vol_name: "172.29.228.21:/NF2_log_mnt00001"
+    mount_path: "/hana/log/NF2/mnt00001"
+  - ntap_vol_name: "172.29.201.22:/NF2_shared"
+    mount_path: "/hana/shared"
+  - ntap_vol_name: "172.29.228.22:/hana_install"
+    mount_path: "/hana/install"
+
+
+

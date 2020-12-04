@@ -1,0 +1,11 @@
+---
+# OS Configuration for HANA Playbook
+- hosts: hanaserver
+  remote_user: root
+  tasks:
+    - name: Enable only codeready-builder repositories for EPEL8      
+      command: 'subscription-manager repos --enable="codeready-builder-for-rhel-8-x86_64-rpms"' 
+    - name: Install EPEL 8 rpm
+      command: 'yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm'
+    - name: Install ndctl and ipmctl
+      command: 'yum -y install ipmctl ndctl'

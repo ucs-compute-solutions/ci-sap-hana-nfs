@@ -1,0 +1,8 @@
+---
+# OS Configuration for HANA Playbook
+- hosts: hanaserver
+  remote_user: root
+#  collections: ansible-base
+  tasks:
+    - name: Reboot the Server
+      reboot:
