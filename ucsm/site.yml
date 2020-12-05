@@ -1,5 +1,5 @@
 ---
-# FlexPod HANA complete UCS Config
+# CI SAP HANA complete UCS Config
 - import_playbook: 01-ip-kvm.yml
 - import_playbook: 02-ntp-config.yml
 - import_playbook: 03-chassis-discovery.yml
