@@ -1,4 +1,4 @@
-#Cisco UCS Converged Infrastructure for SAP HANA with NFS Storage
+# Cisco UCS Converged Infrastructure for SAP HANA with NFS Storage
 
 Ansible playbooks to configure Cisco UCS, Cisco Nexus, OS Installation and Configuration for HANA
 
