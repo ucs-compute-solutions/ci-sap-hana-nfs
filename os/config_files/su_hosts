@@ -1,0 +1,27 @@
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+192.168.10.101	cishana91.ciscolab.local cishana91
+#
+## AppServer Network
+#
+192.168.223.101 cishana91a.ciscolab.local cishana91a
+#
+## Mgmt Network
+#
+192.168.76.101  cishana91m.ciscolab.local cishana91m
+#
+## Backup Network
+#
+192.168.224.101 cishana91b.ciscolab.local cishana91b
+#
+## HANA-data Network
+#
+192.168.201.101 cishana91d.ciscolab.local cishana91d
+#
+## HANA-log Network
+#
+192.168.228.101 cishana91l.ciscolab.local cishana91l
+#
+## HANA-shared Network
+#
+192.168.130.101 cishana91s.ciscolab.local cishana91s
