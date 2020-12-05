@@ -1,0 +1,9 @@
+---
+# OS Configuration for HANA Playbook
+- hosts: hanaserver
+  remote_user: root
+#  collections: ansible-base
+  roles:
+  - role: sap-preconfigure
+  - role: sap-hana-preconfigure
+...
