@@ -6,6 +6,8 @@
 - import_playbook: 04-server-ports.yml
 - import_playbook: 05-qos-system.yml
 - import_playbook: 06-network-ports.yml
+- import_playbook: 06-optional-network-ports-backup.yml
+- import_playbook: 07-optional-uplink-pc-backup.yml
 - import_playbook: 07-uplink-pc.yml
 - import_playbook: 08-create-org.yml
 - import_playbook: 09-mac-pool.yml
@@ -28,5 +30,16 @@
 - import_playbook: 25-vnic-template.yml
 - import_playbook: 26-vnic-placement.yml
 - import_playbook: 27-lan-conn-iscsi-boot-scale-up.yml
+- import_playbook: 27-lan-conn-local-boot-scale-up.yml
 - import_playbook: 28-lan-conn-iscsi-boot-scale-out.yml
+- import_playbook: 28-lan-conn-local-boot-scale-out.yml
 - import_playbook: 29-iscsi-boot-policy.yml
+- import_playbook: 29-local-boot-policy.yml
+- import_playbook: 29-vmedia-boot-policy.yml
+- import_playbook: 41-sp-template-scaleup-local.yml
+- import_playbook: 41-sp-template-scaleup.yml
+- import_playbook: 42-sp-template-scaleout-local.yml
+- import_playbook: 42-sp-template-scaleout.yml
+- import_playbook: 51-sp-from-template-scaleup-local.yml
+- import_playbook: 51-sp-from-template-scaleup.yml
+- import_playbook: 52-sp-from-template-scaleout.yml
