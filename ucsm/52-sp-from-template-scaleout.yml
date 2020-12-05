@@ -1,0 +1,26 @@
+---
+# CI SAP HANA Playbook
+- hosts: ucs
+  connection: local
+  collections:
+  - cisco.ucs
+  gather_facts: no
+  tasks:
+    - name: Create Service Profile from Template for SAP HANA Scale Out
+      ucs_service_profile_from_template:
+        hostname: "{{ ucs_hostname }}"
+        username: "{{ ucs_username }}"
+        password: "{{ ucs_password }}"
+        state: "{{ ucs_state }}"
+        org_dn: "{{ var_org }}"
+        source_template: "{{ var_sp_template_scale_out }}"
+        name: "{{ item }}"
+      loop:
+          - "{{ var_sp_scale_out_name1 }}"  
+          - "{{ var_sp_scale_out_name2 }}"  
+          - "{{ var_sp_scale_out_name3 }}"  
+          - "{{ var_sp_scale_out_name4 }}"  
+#          - "{{ var_sp_scale_out_name5 }}"  
+#          - "{{ var_sp_scale_out_name6 }}"  
+#          - "{{ var_sp_scale_out_name7 }}"  
+#          - "{{ var_sp_scale_out_name8 }}"  

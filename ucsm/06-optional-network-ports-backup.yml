@@ -1,0 +1,53 @@
+---
+# CI SAP HANA Playbook
+- hosts: ucs
+  connection: local
+  collections:
+  - cisco.ucs
+  gather_facts: no
+  tasks:
+    - name: Enable Optional Uplink Ports for Backup on the UCS Fabric Interconnect
+      ucs_managed_objects:
+        hostname: "{{ ucs_hostname }}"
+        username: "{{ ucs_username }}"
+        password: "{{ ucs_password }}"
+        state: "{{ ucs_state }}"
+        objects:
+      # uplink ports
+        - {
+              "module": "ucsmsdk.mometa.fabric.FabricEthLan",
+              "class": "FabricEthLan",
+              "properties": {
+                  "parent_mo_or_dn": "fabric/lan",
+                  "id": "A"
+          },
+              "children": [
+                  {
+                       "module": "ucsmsdk.mometa.fabric.FabricEthLanEp",
+                       "class": "FabricEthLanEp",
+                       "properties": {
+                           "port_id": "{{ item }}",
+                           "slot_id": "1"
+                       }
+                  }
+               ]
+          }
+        - {
+              "module": "ucsmsdk.mometa.fabric.FabricEthLan",
+              "class": "FabricEthLan",
+              "properties": {
+                  "parent_mo_or_dn": "fabric/lan",
+                  "id": "B"
+               },
+               "children": [
+                  {
+                      "module": "ucsmsdk.mometa.fabric.FabricEthLanEp",
+                      "class": "FabricEthLanEp",
+                      "properties": {
+                          "port_id": "{{ item }}",
+                          "slot_id": "1"
+                      }
+                  }
+              ]
+          }
+      with_sequence: start="{{ backup_network_port_id_start }}" end="{{ backup_network_port_id_end }}"

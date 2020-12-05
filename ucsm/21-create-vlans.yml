@@ -1,0 +1,58 @@
+---
+# CI SAP HANA Playbook
+- hosts: ucs
+  connection: local
+  collections:
+  - cisco.ucs
+  gather_facts: no
+  tasks:
+    - name: Create VLANs for HANA
+      ucs_vlans_list:
+        hostname: "{{ ucs_hostname }}"
+        username: "{{ ucs_username }}"
+        password: "{{ ucs_password }}"  
+        state: "{{ ucs_state }}"
+        vlans_list:
+        - name: "{{ iscsi_A_vlan_name }}"
+          id: "{{ iscsi_A_vlan_id }}"
+          native: 'no'
+
+        - name: "{{ iscsi_B_vlan_name }}"
+          id: "{{ iscsi_B_vlan_id }}"
+          native: 'no'
+
+        - name: "{{ hana_admin_vlan_name }}"
+          id: "{{ hana_admin_vlan_id }}"
+          native: 'no'
+
+        - name: "{{ hana_data_vlan_name }}"
+          id: "{{ hana_data_vlan_id }}"
+          native: 'no'
+
+        - name: "{{ hana_log_vlan_name }}"
+          id: "{{ hana_log_vlan_id }}"
+          native: 'no'
+
+        - name: "{{ hana_internode_vlan_name }}"
+          id: "{{ hana_internode_vlan_id }}"
+          native: 'no'
+
+        - name: "{{ hana_datasource_vlan_name }}"
+          id: "{{ hana_datasource_vlan_id }}"
+          native: 'no'
+
+        - name: "{{ hana_client_vlan_name }}"
+          id: "{{ hana_client_vlan_id }}"
+          native: 'no'
+
+        - name: "{{ hana_appserver_vlan_name }}"
+          id: "{{ hana_appserver_vlan_id }}"
+          native: 'no'
+
+        - name: "{{ hana_backup_vlan_name }}"
+          id: "{{ hana_backup_vlan_id }}"
+          native: 'no'
+
+        - name: "{{ hana_replication_vlan_name }}"
+          id: "{{ hana_replication_vlan_id }}"
+          native: 'no'

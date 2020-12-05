@@ -1,0 +1,36 @@
+---
+# CI SAP HANA Playbook
+- hosts: ucs
+  connection: local
+  collections:
+  - cisco.ucs
+  gather_facts: no
+  tasks:
+  - name: Create IQN Pools for iSCSI Boot
+    ucs_managed_objects: 
+      hostname: "{{ ucs_hostname }}"
+      username: "{{ ucs_username }}"
+      password: "{{ ucs_password }}"
+      state: "{{ ucs_state }}"
+      objects:
+      - {
+        "module": "ucsmsdk.mometa.iqnpool.IqnpoolPool",
+        "class": "IqnpoolPool",
+        "properties": {
+            "parent_mo_or_dn": "{{ var_org }}",
+            "name": "{{ var_iqn_pool_name }}",
+            "assignment_order": "sequential",
+            "prefix": "{{ var_iqn_prefix }}"
+        },
+        "children": [
+            {
+                "module": "ucsmsdk.mometa.iqnpool.IqnpoolBlock",
+                "class": "IqnpoolBlock",
+                "properties": {
+                    "suffix":"{{ var_iqn_suffix }}",
+                    "r_from": "{{ var_iqn_suffix_from }}",
+                    "to": "{{ var_iqn_suffix_to }}"
+                }
+            }
+        ]
+      }

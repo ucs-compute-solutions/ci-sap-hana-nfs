@@ -1,0 +1,17 @@
+---
+# CI SAP HANA Playbook
+- hosts: ucs
+  connection: local
+  collections:
+  - cisco.ucs
+  gather_facts: no
+  tasks:
+    - name: Create Service Profile from Template for SAP HANA Scale Up
+      ucs_service_profile_from_template:
+        hostname: "{{ ucs_hostname }}"
+        username: "{{ ucs_username }}"
+        password: "{{ ucs_password }}"
+        state: "{{ ucs_state }}"
+        org_dn: "{{ var_org }}"
+        source_template: "{{ var_sp_template_scale_up_local }}"
+        name: "{{ var_sp_scale_up_local }}"

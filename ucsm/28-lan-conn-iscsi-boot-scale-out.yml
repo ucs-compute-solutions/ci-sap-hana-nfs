@@ -1,0 +1,59 @@
+---
+# CI SAP HANA Playbook
+- hosts: ucs
+  connection: local
+  collections:
+  - cisco.ucs
+  gather_facts: no
+  tasks:
+    - name: UCS LAN Connectivity Policy for HANA Scale Out with iSCSI boot
+      ucs_lan_connectivity:
+        hostname: "{{ ucs_hostname }}"
+        username: "{{ ucs_username }}"
+        password: "{{ ucs_password }}"
+        state: "{{ ucs_state }}"
+        org_dn: "{{ var_org }}"
+        name: "{{ var_iscsi_boot_hana_scale_out }}"
+        vnic_list:
+        - name: HANA-node-admin
+          vnic_template: "{{ hana_admin_vnic_name }}"
+          adapter_policy: Linux
+        - name: HANA-data
+          vnic_template: "{{ hana_data_vnic_name }}"
+          adapter_policy: "{{ var_eth_adapter_name }}"
+        - name: HANA-log
+          vnic_template: "{{ hana_log_vnic_name }}"
+          adapter_policy: "{{ var_eth_adapter_name }}"
+        - name: HANA-AppServer
+          vnic_template: "{{ hana_appserver_vnic_name }}"
+          adapter_policy: Linux
+        - name: HANA-node-backup
+          vnic_template: "{{ hana_backup_vnic_name }}"
+          adapter_policy: Linux
+        - name: HANA-internode
+          vnic_template: "{{ hana_internode_vnic_name }}"
+          adapter_policy: "{{ var_eth_adapter_name }}"
+#        - name: HANA-datasource
+#          vnic_template: "{{ hana_datasource_vnic_name }}"
+#          adapter_policy: Linux
+#        - name: HANA-client
+#          vnic_template: "{{ hana_client_vnic_name }}"
+#          adapter_policy: Linux
+#        - name: HANA-replication
+#          vnic_template: "{{ hana_replication_vnic_name }}"
+#          adapter_policy: Linux
+        - name: iSCSI-A
+          vnic_template: "{{ iscsi_A_vnic_name }}"
+          adapter_policy: Linux
+        - name: iSCSI-B
+          vnic_template: "{{ iscsi_B_vnic_name }}"
+          adapter_policy: Linux
+        iscsi_vnic_list:
+        - name: iSCSI-Boot-A
+          overlay_vnic: iSCSI-A
+          iscsi_adapter_policy: default
+          vlan_name: "{{ iscsi_A_vlan_name }}"
+        - name: iSCSI-Boot-B
+          overlay_vnic: iSCSI-B
+          iscsi_adapter_policy: default
+          vlan_name: "{{ iscsi_B_vlan_name }}"

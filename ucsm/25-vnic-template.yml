@@ -1,0 +1,200 @@
+---
+# CI SAP HANA Playbook
+- hosts: ucs
+  connection: local
+  collections:
+  - cisco.ucs
+  gather_facts: no
+  vars:
+    login_info: &login_info
+      hostname: "{{ ucs_hostname }}"
+      username: "{{ ucs_username | default(omit) }}"
+      password: "{{ ucs_password | default('password') }}"
+      state: "{{ ucs_state | default(omit) }}"
+  tasks:
+    - name: Create vNIC template for iSCSI-A
+      ucs_vnic_template:
+        <<: *login_info
+        name: "{{ iscsi_A_vnic_name }}"
+        fabric: A
+        redundancy_type: none
+        target: adapter
+        template_type: updating-template
+        vlans_list:
+        - name: "{{ iscsi_A_vlan_name }}"
+          native: 'yes'
+        mtu: '9000'
+        mac_pool: "{{ var_mac_fi_a }}" 
+#        qos_policy:
+        network_control_policy: "{{ var_nw_ctrl }}"
+        org_dn: "{{ var_org }}"
+
+    - name: Create vNIC template for iSCSI-B
+      ucs_vnic_template:
+        <<: *login_info
+        name: "{{ iscsi_B_vnic_name }}"
+        fabric: B
+        redundancy_type: none
+        target: adapter
+        template_type: updating-template
+        vlans_list:
+        - name: "{{ iscsi_B_vlan_name }}"
+          native: 'yes'
+        mtu: '9000'
+        mac_pool: "{{ var_mac_fi_b }}"
+#        qos_policy:
+        network_control_policy: "{{ var_nw_ctrl }}"
+        org_dn: "{{ var_org }}"
+
+    - name: Create vNIC template for HANA Management
+      ucs_vnic_template:
+        <<: *login_info
+        name: "{{ hana_admin_vnic_name }}"
+        fabric: A-B
+        redundancy_type: none
+        target: adapter
+        template_type: updating-template
+        vlans_list:
+        - name: "{{ hana_admin_vlan_name }}"
+          native: 'yes'
+        mtu: '1500'
+        mac_pool: "{{ var_mac_fi_a }}"
+#        qos_policy:
+        network_control_policy: "{{ var_nw_ctrl }}"
+        org_dn: "{{ var_org }}"
+
+    - name: Create vNIC template for HANA Data
+      ucs_vnic_template:
+        <<: *login_info
+        name: "{{ hana_data_vnic_name }}"
+        fabric: A-B
+        redundancy_type: none
+        target: adapter
+        template_type: updating-template
+        vlans_list:
+        - name: "{{ hana_data_vlan_name }}"
+          native: 'yes'
+        mtu: '9000'
+        mac_pool: "{{ var_mac_fi_a }}"
+#        qos_policy:
+        network_control_policy: "{{ var_nw_ctrl }}"
+        org_dn: "{{ var_org }}"
+
+    - name: Create vNIC template for HANA Log
+      ucs_vnic_template:
+        <<: *login_info
+        name: "{{ hana_log_vnic_name }}"
+        fabric: A-B
+        redundancy_type: none
+        target: adapter
+        template_type: updating-template
+        vlans_list:
+        - name: "{{ hana_log_vlan_name }}"
+          native: 'yes'
+        mtu: '9000'
+        mac_pool: "{{ var_mac_fi_a }}"
+#        qos_policy:
+        network_control_policy: "{{ var_nw_ctrl }}"
+        org_dn: "{{ var_org }}"
+
+    - name: Create vNIC template for HANA Inter-node Network
+      ucs_vnic_template:
+        <<: *login_info
+        name: "{{ hana_internode_vnic_name }}"
+        fabric: B-A
+        redundancy_type: none
+        target: adapter
+        template_type: updating-template
+        vlans_list:
+        - name: "{{ hana_internode_vlan_name }}"
+          native: 'yes'
+        mtu: '9000'
+        mac_pool: "{{ var_mac_fi_b }}"
+        qos_policy: "{{ var_qos_policy_name }}"
+        network_control_policy: "{{ var_nw_ctrl }}"
+        org_dn: "{{ var_org }}"
+
+    - name: Create vNIC template for HANA DataSource
+      ucs_vnic_template:
+        <<: *login_info
+        name: "{{ hana_datasource_vnic_name }}"
+        fabric: A-B
+        redundancy_type: none
+        target: adapter
+        template_type: updating-template
+        vlans_list:
+        - name: "{{ hana_datasource_vlan_name }}"
+          native: 'yes'
+        mtu: '9000'
+        mac_pool: "{{ var_mac_fi_a }}"
+#        qos_policy:
+        network_control_policy: "{{ var_nw_ctrl }}"
+        org_dn: "{{ var_org }}"
+
+    - name: Create vNIC template for HANA Client
+      ucs_vnic_template:
+        <<: *login_info
+        name: "{{ hana_client_vnic_name }}"
+        fabric: B-A
+        redundancy_type: none
+        target: adapter
+        template_type: updating-template
+        vlans_list:
+        - name: "{{ hana_client_vlan_name }}"
+          native: 'yes'
+        mtu: '9000'
+        mac_pool: "{{ var_mac_fi_b }}"
+#        qos_policy:
+        network_control_policy: "{{ var_nw_ctrl }}"
+        org_dn: "{{ var_org }}"
+
+    - name: Create vNIC template for HANA AppServer
+      ucs_vnic_template:
+        <<: *login_info
+        name: "{{ hana_appserver_vnic_name }}"
+        fabric: B-A
+        redundancy_type: none
+        target: adapter
+        template_type: updating-template
+        vlans_list:
+        - name: "{{ hana_appserver_vlan_name }}"
+          native: 'yes'
+        mtu: '9000'
+        mac_pool: "{{ var_mac_fi_b }}"
+#        qos_policy:
+        network_control_policy: "{{ var_nw_ctrl }}"
+        org_dn: "{{ var_org }}"
+
+    - name: Create vNIC template for HANA Backup
+      ucs_vnic_template:
+        <<: *login_info
+        name: "{{ hana_backup_vnic_name }}"
+        fabric: B-A
+        redundancy_type: none
+        target: adapter
+        template_type: updating-template
+        vlans_list:
+        - name: "{{ hana_backup_vlan_name }}"
+          native: 'yes'
+        mtu: '9000'
+        mac_pool: "{{ var_mac_fi_b }}"
+#        qos_policy:
+        network_control_policy: "{{ var_nw_ctrl }}"
+        org_dn: "{{ var_org }}"
+
+    - name: Create vNIC template for HANA SysRep
+      ucs_vnic_template:
+        <<: *login_info
+        name: "{{ hana_replication_vnic_name }}"
+        fabric: A-B
+        redundancy_type: none
+        target: adapter
+        template_type: updating-template
+        vlans_list:
+        - name: "{{ hana_replication_vlan_name }}"
+          native: 'yes'
+        mtu: '9000'
+        mac_pool: "{{ var_mac_fi_a }}"
+#        qos_policy:
+        network_control_policy: "{{ var_nw_ctrl }}"
+        org_dn: "{{ var_org }}"

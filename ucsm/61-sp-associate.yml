@@ -1,0 +1,22 @@
+---
+# CI SAP HANA Playbook
+- hosts: ucs
+  connection: local
+  collections:
+  - cisco.ucs
+  gather_facts: no
+  tasks:
+    - name: Attempt to change association once a minute for up to 10 minutes
+      ucs_service_profile_association:
+        hostname: "{{ ucs_hostname }}"
+        username: "{{ ucs_username }}"
+        password: "{{ ucs_password }}"
+        state: "{{ ucs_state }}"
+        org_dn: "{{ var_org }}"
+        service_profile_name: HANA-SO-02
+        server_assignment: server
+        server_dn: sys/chassis-2/blade-4
+#      register: result
+#      until: result.assign_state == 'assigned' and result.assoc_state == 'associated'
+#      retries: 10
+#      delay: 60

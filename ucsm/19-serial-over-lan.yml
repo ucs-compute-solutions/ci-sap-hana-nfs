@@ -1,0 +1,25 @@
+---
+# CI SAP HANA Playbook
+- hosts: ucs
+  connection: local
+  collections:
+  - cisco.ucs
+  gather_facts: no
+  tasks:
+    - name: Create Serial Over LAN Policy
+      ucs_managed_objects:
+        hostname: "{{ ucs_hostname }}"
+        username: "{{ ucs_username }}"
+        password: "{{ ucs_password }}"
+        state: "{{ ucs_state }}"
+        objects:
+        - {
+	     "module": "ucsmsdk.mometa.sol.SolPolicy", 
+             "class": "SolPolicy", 
+             "properties": {
+                 "admin_state": "enable", 
+                 "name": "{{ var_sol_name }}", 
+                 "parent_mo_or_dn": "org-root", 
+                 "speed": "115200"
+              }
+           }

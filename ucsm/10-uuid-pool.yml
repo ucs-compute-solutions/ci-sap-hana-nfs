@@ -1,0 +1,18 @@
+---
+# CI SAP HANA Playbook
+- hosts: ucs
+  connection: local
+  collections:
+  - cisco.ucs
+  gather_facts: no
+  tasks:
+    - name: Create UUID Suffix pool
+      ucs_uuid_pool:
+        hostname: "{{ ucs_hostname }}"
+        username: "{{ ucs_username }}"
+        password: "{{ ucs_password }}"
+        state: "{{ ucs_state }}"
+        name: "{{ var_uuid_pool_name }}"
+        order: sequential
+        first_uuid: "{{ var_first_uuid }}"
+        last_uuid: "{{ var_last_uuid }}"

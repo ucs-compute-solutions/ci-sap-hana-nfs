@@ -1,0 +1,208 @@
+# Variables File for CI for SAP HANA
+
+# 01. Add Block of IP Address for KVM
+var_kvm_ip_name: fp-ext-mgmt
+var_kvm_first_ip: 172.29.10.151
+var_kvm_last_ip: 172.29.10.199
+var_kvm_ip_subnet: 255.255.255.0
+var_kvm_ip_gateway: 172.29.10.1
+
+# DNS Servers
+var_dns_server1: 172.29.10.20
+
+# 02. Synchronize NTP
+#var_ntp_server1: 172.29.10.16
+var_ntp_server1: pool.ntp.org
+var_ucs_timezone: America/Los_Angeles
+
+# 03. UCS Chassis discovery Policy
+
+# 04. Enable Server ports
+server_port_id_start: 35
+server_port_id_end: 42
+
+# 05. QoS System Class 
+
+# 06. Enable Uplink ports
+network_port_id_start: 45
+network_port_id_end: 46
+
+# 06. Enable Optional Uplink ports for Backup
+backup_network_port_id_start: 43
+backup_network_port_id_end: 44
+
+# 07. Create Uplink Port-Channel
+fi_a_po_name: Anible-Uplink-A
+fi_a_po_id: "45"
+fi_b_po_name: Anible-Uplink-B
+fi_b_po_id: "46"
+
+# 07. Optional Uplink Port-Channel for Backup
+fi_a_po_backup_name: Anible-Backup-A
+fi_a_po_backup_id: "43"
+fi_b_po_backup_name: Anible-Backup-B
+fi_b_po_backup_id: "44"
+
+# 08. Create New Org
+#var_org_name: flexpod-hana
+var_org_name: DEMO-FP-HANA
+var_org: org-root/org-DEMO-FP-HANA
+
+# 09. Create MAC Address Pool
+var_mac_fi_a: fp-fi-a
+var_mac_a_first_addr: 00:25:B5:0A:66:00
+var_mac_a_last_addr: 00:25:B5:0A:67:F3
+var_mac_fi_b: fp-fi-b
+var_mac_b_first_addr: 00:25:B5:0B:66:00
+var_mac_b_last_addr: 00:25:B5:0B:67:F3
+
+# 10. Create UUID Suffix pool
+var_uuid_pool_name: fp-uuid-pool 
+var_first_uuid: 0000-000000000001
+var_last_uuid: 0000-000000000078
+
+# 11. Create IQN Pool for iSCSI Boot
+var_iqn_pool_name: IQN-HANA
+var_iqn_prefix: iqn.2019-09.com.flexpod
+var_iqn_suffix: hana-node
+var_iqn_suffix_from: '1'
+var_iqn_suffix_to: '8'
+
+# 12 Create IP Pools for iSCSI Boot
+
+var_iscsi_A_ip_pool_name: iSCSI-IP-Pool-A
+var_iscsi_A_first_ip: 192.168.128.50
+var_iscsi_A_last_ip: 192.168.128.61
+var_iscsi_A_ip_subnet: 255.255.255.0
+
+var_iscsi_B_ip_pool_name: iSCSI-IP-Pool-B
+var_iscsi_B_first_ip: 192.168.129.50
+var_iscsi_B_last_ip: 192.168.129.61
+var_iscsi_B_ip_subnet: 255.255.255.0
+
+# 13. Configure Compute PSU policy
+
+# 14. Create Power Control Policy 
+var_pw_ctrl_name: no-cap
+
+# 15. Create Network Control Policy
+var_nw_ctrl: enable-cdp-lldp
+
+# 16. Create Host Firmware Package Policy
+var_host_fw_name: FW-4.1.2a
+var_blade_bundle_verion: 4.1(2a)B
+var_rack_bundle_verion: 4.1(2a)C
+
+# 17. Create Local Disk Configuration Policy
+var_local_disk: local-raid1
+
+# 18. Create Server BIOS Policy for HANA
+var_bios_name: FP-HANA-BIOS
+
+# 19. Create Serial Over LAN Policy
+var_sol_name: SoL-Console
+
+# 20. Update default Maintenance Policy
+
+# 21. Create VLANs for HANA 
+
+iscsi_A_vlan_name: iSCSI-A
+iscsi_B_vlan_name: iSCSI-B
+hana_admin_vlan_name: IB-Mgmt
+hana_data_vlan_name: NFS_Data
+hana_log_vlan_name: NFS_log
+hana_internode_vlan_name: Server
+hana_datasource_vlan_name: DataSource
+hana_client_vlan_name: Client
+hana_appserver_vlan_name: AppServer
+hana_backup_vlan_name: Backup
+hana_replication_vlan_name: SysRep
+
+iscsi_A_vlan_id: '2128'
+iscsi_B_vlan_id: '2129'
+hana_admin_vlan_id: '210'
+hana_data_vlan_id: '2201'
+hana_log_vlan_id: '2228'
+hana_internode_vlan_id: '2220'
+hana_datasource_vlan_id: '2221'
+hana_client_vlan_id: '2222'
+hana_appserver_vlan_id: '2223'
+hana_backup_vlan_id: '2224'
+hana_replication_vlan_id: '2225'
+
+# 22. Create VLAN Groups
+var_vlan_group_name_hana: Ansi-HANA-Network
+
+# 22. Create Optional VLAN Group for Backup
+var_vlan_group_name_backup: Ansi-Backup
+
+# 23. Create Ethernet Adapter Policy
+var_eth_adapter_name: Ansi-HANA
+
+# 24. Create QoS policy Platinum
+var_qos_policy_name: Ansi-Platinum
+
+# 25. Create vNIC Templates for HANA
+
+iscsi_A_vnic_name: iSCSI-A
+iscsi_B_vnic_name: iSCSI-B
+hana_admin_vnic_name: Management
+hana_data_vnic_name: NFS_Data
+hana_log_vnic_name: NFS_log
+hana_internode_vnic_name: Server
+hana_datasource_vnic_name: DataSource
+hana_client_vnic_name: Client
+hana_appserver_vnic_name: AppServer
+hana_backup_vnic_name: Backup
+hana_replication_vnic_name: SysRep
+
+# 26. Create vNIC Placement Policy
+var_vnic_placement_name: vnic-linear
+
+# 27. Create LAN Connectivity Policy for HANA Scale Up 
+var_local_boot_hana_scale_up: local-boot-su
+var_iscsi_boot_hana_scale_up: iscsi-boot-su
+
+# 28. Create LAN Connectivity Policy for HANA Scale Out
+var_local_boot_hana_scale_out: local-boot-so
+var_iscsi_boot_hana_scale_out: iscsi-boot-so
+
+# 29. Create iSCSI Boot Policy
+var_iscsi_boot_policy_name: iSCSI-Boot
+var_local_boot_policy_name: Local-Boot
+
+# 41. Create Service Profile Template for HANA Scale Up
+var_sp_template_scale_up: HANA-ScaleUp
+var_sp_template_scale_up_local: HANA-ScaleUp-Local
+
+# 42. Create Service Profile Template for HANA Scale Out
+var_sp_template_scale_out: HANA-ScaleOut-demo
+var_sp_template_scale_out_local: HANA-ScaleOut-Local
+
+# 41. 42. iSCSI Boot Target
+var_iscsi_target_name: 'iqn.1992-08.com.netapp:boot'
+var_iscsi_lif_ip_1a: 192.168.128.11
+var_iscsi_lif_ip_2a: 192.168.128.12
+var_iscsi_lif_ip_1b: 192.168.129.11
+var_iscsi_lif_ip_2b: 192.168.129.12
+
+# 51. Create Service Profile from template for HANA Scale Up
+var_sp_scale_up: HANA-SU-01
+var_sp_scale_up_local: HANA-SU-Local-01
+
+# 52. Create Service Profile from template for HANA Scale Out  
+var_sp_scale_out_name1: HANA-SO-D01
+var_sp_scale_out_name2: HANA-SO-D02
+var_sp_scale_out_name3: HANA-SO-D03
+var_sp_scale_out_name4: HANA-SO-D04
+var_sp_scale_out_name5: HANA-SO-D05
+var_sp_scale_out_name6: HANA-SO-D06
+var_sp_scale_out_name7: HANA-SO-D07
+var_sp_scale_out_name8: HANA-SO-D08
+
+
+# 81. Pre-OS Install UCS Tasks
+var_vmedia_policy_name: rhel8 
+var_image_file_name: rhel81-ks.iso
+var_image_path: '/software'
+var_remote_ip_address: 192.168.10.15

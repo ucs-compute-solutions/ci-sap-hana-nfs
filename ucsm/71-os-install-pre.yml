@@ -1,0 +1,56 @@
+---
+# CI SAP HANA Playbook
+- hosts: ucs
+  connection: local
+  collections:
+  - cisco.ucs
+  gather_facts: no
+  vars:
+    login_info: &login_info
+      hostname: "{{ ucs_hostname }}"
+      username: "{{ ucs_username | default(omit) }}"
+      password: "{{ ucs_password | default('password') }}"
+      state: "{{ ucs_state | default(omit) }}"
+  tasks:
+    - name: Configure vMedia Policy for OS Installation
+      ucs_managed_objects:
+          <<: *login_info
+          objects:
+          - module: ucsmsdk.mometa.cimcvmedia.CimcvmediaMountConfigPolicy
+            class: CimcvmediaMountConfigPolicy
+            properties:
+              parent_mo_or_dn: "{{ var_org }}"
+              name: "{{ var_vmedia_policy_name }}"
+            children:
+              - module: ucsmsdk.mometa.cimcvmedia.CimcvmediaConfigMountEntry
+                class: CimcvmediaConfigMountEntry
+                properties:
+                  device_type: cdd
+                  image_file_name: "{{ var_image_file_name }}"
+                  image_path: "{{ var_image_path | default('/software') }}"
+                  mapping_name: cdd-http
+                  mount_protocol: http
+                  remote_ip_address: "{{ var_remote_ip_address }}"
+     
+    - name: Assign vMedia policy to Service Profile Template
+      ucs_managed_objects: 
+          <<: *login_info
+          objects:
+          - module: ucsmsdk.mometa.ls.LsServer
+            class: LsServer
+            properties:
+              parent_mo_or_dn: "{{ var_org }}"
+              name: "{{ var_sp_template_scale_out_local }}"
+              vmedia_policy_name: "{{ var_vmedia_policy_name }}"
+#              vmedia_policy_name: "
+
+    - name: Assign CIMC Mounted CD to Service Profile Template
+      ucs_managed_objects:
+          <<: *login_info
+          objects:
+          - module: ucsmsdk.mometa.ls.LsServer
+            class: LsServer
+            properties:
+              parent_mo_or_dn: "{{ var_org }}"
+              name: "{{ var_sp_template_scale_out_local }}"
+              boot_policy_name: vmedia

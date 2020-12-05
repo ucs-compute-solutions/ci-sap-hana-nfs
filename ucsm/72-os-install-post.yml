@@ -1,0 +1,56 @@
+---
+# CI SAP HANA Playbook
+- hosts: ucs
+  connection: local
+  collections:
+  - cisco.ucs
+  gather_facts: no
+  vars:
+    login_info: &login_info
+      hostname: "{{ ucs_hostname }}"
+      username: "{{ ucs_username | default(omit) }}"
+      password: "{{ ucs_password | default('password') }}"
+      state: "{{ ucs_state | default(omit) }}"
+  tasks:
+    - name: Remove vMedia policy to Service Profile Template
+      ucs_managed_objects: 
+          <<: *login_info
+          objects:
+          - module: ucsmsdk.mometa.ls.LsServer
+            class: LsServer
+            properties:
+              parent_mo_or_dn: "{{ var_org }}"
+              name: "{{ var_sp_template_scale_out_local }}"
+              vmedia_policy_name: ""
+    - name: Create RAID 1 with protected Local Disk Configuration Policy 
+      ucs_managed_objects:
+          <<: *login_info        
+          objects:
+          - module: ucsmsdk.mometa.storage.StorageLocalDiskConfigPolicy
+            class: StorageLocalDiskConfigPolicy
+            properties:
+              parent_mo_or_dn: org-root
+              name: "{{ var_local_disk }}-p"
+              descr: Local disk RAID1 for OS
+              mode: raid-mirrored
+              protect_config: 'true'
+    - name: Change Local Disk Configuration Policy to protected
+      ucs_managed_objects:
+          <<: *login_info
+          objects:
+          - module: ucsmsdk.mometa.ls.LsServer
+            class: LsServer
+            properties:
+              parent_mo_or_dn: "{{ var_org }}"
+              name: "{{ var_sp_template_scale_out_local }}"
+              local_disk_policy_name: "{{ var_local_disk }}-p"
+    - name: Assign Local Boot to Service Profile Template
+      ucs_managed_objects:
+          <<: *login_info
+          objects:
+          - module: ucsmsdk.mometa.ls.LsServer
+            class: LsServer
+            properties:
+              parent_mo_or_dn: "{{ var_org }}"
+              name: "{{ var_sp_template_scale_out_local }}"
+              boot_policy_name: "{{ var_local_boot_policy_name }}"

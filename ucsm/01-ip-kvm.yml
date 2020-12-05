@@ -1,0 +1,22 @@
+---
+# CI SAP HANA Playbook
+- hosts: ucs
+  connection: local
+#  collections:
+#  - cisco.ucs
+  gather_facts: no
+  tasks:
+    - name: Add Block of IP Address for KVM
+      ucs_ip_pool:
+        hostname: "{{ ucs_hostname }}"
+        username: "{{ ucs_username }}"
+        password: "{{ ucs_password }}"
+        state: "{{ ucs_state }}"
+        name: "{{ var_kvm_ip_name }}"
+        order: sequential
+#        org_dn: "{{ var_org }}"
+        first_addr: "{{ var_kvm_first_ip }}"
+        last_addr: "{{ var_kvm_last_ip }}"
+        subnet_mask: "{{ var_kvm_ip_subnet }}"
+        default_gw: "{{ var_kvm_ip_gateway }}"
+        primary_dns: "{{ var_dns_server1 }}"

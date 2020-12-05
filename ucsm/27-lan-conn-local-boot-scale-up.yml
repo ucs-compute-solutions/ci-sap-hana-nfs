@@ -1,0 +1,30 @@
+---
+# CI SAP HANA Playbook
+- hosts: ucs
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: UCS LAN Connectivity Policy for HANA Scale Up with local boot
+      ucs_lan_connectivity:
+        hostname: "{{ ucs_hostname }}"
+        username: "{{ ucs_username }}"
+        password: "{{ ucs_password }}"
+        state: "{{ ucs_state }}"
+        org_dn: "{{ var_org }}"
+        name: "{{ var_local_boot_hana_scale_up }}"
+        vnic_list:
+        - name: HANA-node-admin
+          vnic_template: "{{ hana_admin_vnic_name }}"
+          adapter_policy: Linux
+        - name: HANA-data
+          vnic_template: "{{ hana_data_vnic_name }}"
+          adapter_policy: "{{ var_eth_adapter_name }}"
+        - name: HANA-log
+          vnic_template: "{{ hana_log_vnic_name }}"
+          adapter_policy: "{{ var_eth_adapter_name }}"
+        - name: HANA-AppServer
+          vnic_template: "{{ hana_appserver_vnic_name }}"
+          adapter_policy: Linux
+        - name: HANA-node-backup
+          vnic_template: "{{ hana_backup_vnic_name }}"
+          adapter_policy: Linux

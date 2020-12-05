@@ -1,0 +1,124 @@
+---
+# CI SAP HANA Playbook
+- hosts: ucs
+  connection: local
+  collections:
+  - cisco.ucs
+  gather_facts: no
+  tasks:
+  - name: Create Server BIOS Policy for HANA
+    ucs_managed_objects: 
+      hostname: "{{ ucs_hostname }}"
+      username: "{{ ucs_username }}"
+      password: "{{ ucs_password }}"
+      state: "{{ ucs_state }}"
+      objects:      
+        - {
+            "module": "ucsmsdk.mometa.bios.BiosVProfile",
+            "class": "BiosVProfile",
+            "properties": {
+                "parent_mo_or_dn": "{{ var_org }}",
+                "name": "{{ var_bios_name }}",
+                "reboot_on_update": "yes"
+            },
+            "children": [
+                {
+                    "module": "ucsmsdk.mometa.bios.BiosVfQuietBoot",
+                    "class": "BiosVfQuietBoot",
+                    "properties": {
+                        "vp_quiet_boot": "disabled"
+                    }
+               },
+               {
+                    "module": "ucsmsdk.mometa.bios.BiosVfCPUPerformance",
+                    "class": "BiosVfCPUPerformance",
+                    "properties": {
+#                        "vp_cpu_performance": "hpc"
+                        "vp_cpu_performance": "platform-default"
+                    }
+               },
+               {
+                    "module": "ucsmsdk.mometa.bios.BiosVfPackageCStateLimit",
+                    "class": "BiosVfPackageCStateLimit",
+                    "properties": {
+#                        "vp_package_c_state_limit": "c0"
+                        "vp_package_c_state_limit": "platform-default"
+                    }
+               },
+               {
+                    "module": "ucsmsdk.mometa.bios.BiosVfProcessorCState",
+                    "class": "BiosVfProcessorCState",
+                    "properties": {
+                        "vp_processor_c_state": "disabled"
+                    }
+               },
+               {
+                    "module": "ucsmsdk.mometa.bios.BiosVfProcessorC1E",
+                    "class": "BiosVfProcessorC1E",
+                    "properties": {
+                        "vp_processor_c1_e": "disabled"
+                    }
+               },
+               {
+                    "module": "ucsmsdk.mometa.bios.BiosVfProcessorC3Report",
+                    "class": "BiosVfProcessorC3Report",
+                    "properties": {
+                        "vp_processor_c3_report": "disabled"
+                    }
+               },
+               {
+                    "module": "ucsmsdk.mometa.bios.BiosVfProcessorC6Report",
+                    "class": "BiosVfProcessorC6Report",
+                    "properties": {
+                        "vp_processor_c6_report": "disabled"
+                    }
+               },
+               {
+                    "module": "ucsmsdk.mometa.bios.BiosVfProcessorC7Report",
+                    "class": "BiosVfProcessorC7Report",
+                    "properties": {
+                        "vp_processor_c7_report": "disabled"
+                    }
+               },
+               {
+                    "module": "ucsmsdk.mometa.bios.BiosVfProcessorEnergyConfiguration",
+                    "class": "BiosVfProcessorEnergyConfiguration",
+                    "properties": {
+                        "vp_power_technology": "custom"
+#                        "vp_power_technology": "performance",
+#                        "vp_energy_performance": "performance"
+                    }
+               },
+               {
+                    "module": "ucsmsdk.mometa.bios.BiosVfWorkloadConfiguration",
+                    "class": "BiosVfWorkloadConfiguration",
+                    "properties": {
+                        "vp_workload_configuration": "io-sensitive"
+                    }
+               },
+               {
+                    "module": "ucsmsdk.mometa.bios.BiosVfNUMAOptimized",
+                    "class": "BiosVfNUMAOptimized",
+                    "properties": {
+                        "vp_numa_optimized": "enabled"
+                    }
+               },
+               {
+                    "module": "ucsmsdk.mometa.bios.BiosVfSerialPortAEnable",
+                    "class": "BiosVfSerialPortAEnable",
+                    "properties": {
+                        "vp_serial_port_a_enable": "enabled"
+                    }
+               },
+               {
+                    "module": "ucsmsdk.mometa.bios.BiosVfConsoleRedirection",
+                    "class": "BiosVfConsoleRedirection",
+                    "properties": {
+                        "vp_baud_rate": "115200",
+                        "vp_console_redirection": "serial-port-a",
+                        "vp_legacy_os_redirection": "enabled",
+                        "vp_terminal_type": "vt100-plus"
+                    }
+               }
+            ]
+          }

@@ -1,0 +1,58 @@
+---
+# CI SAP HANA Playbook
+- hosts: ucs
+  connection: local
+  collections:
+  - cisco.ucs
+  gather_facts: no
+  tasks:
+  - name: Create Local Boot Policy
+    ucs_managed_objects: 
+      hostname: "{{ ucs_hostname }}"
+      username: "{{ ucs_username }}"
+      password: "{{ ucs_password }}"
+      state: "{{ ucs_state }}"
+      objects:
+      - {
+        "module": "ucsmsdk.mometa.lsboot.LsbootPolicy",
+        "class": "LsbootPolicy",
+        "properties": {
+            "parent_mo_or_dn": "{{ var_org }}",
+            "boot_mode": "legacy",
+            "enforce_vnic_name": "yes",
+            "name": "{{ var_local_boot_policy_name }}",
+            "reboot_on_update": "no"
+        },
+        "children": [
+            {
+                "module": "ucsmsdk.mometa.lsboot.LsbootVirtualMedia",
+                "class": "LsbootVirtualMedia",
+                "properties": {
+                    "access": "read-only",
+                    "lun_id": "0",
+                    "order": "1"
+                }
+            },
+            {
+                "module": "ucsmsdk.mometa.lsboot.LsbootStorage",
+                "class": "LsbootStorage",
+                "properties": {},
+                "children": [
+                    {
+                        "module": "ucsmsdk.mometa.lsboot.LsbootLocalStorage",
+                        "class": "LsbootLocalStorage",
+                        "properties": {},
+                        "children": [
+                            {
+                                "module": "ucsmsdk.mometa.lsboot.LsbootDefaultLocalImage",
+                                "class": "LsbootDefaultLocalImage",
+                                "properties": {
+                                    "order": "2"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+      }

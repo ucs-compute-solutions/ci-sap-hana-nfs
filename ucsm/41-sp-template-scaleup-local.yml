@@ -1,0 +1,85 @@
+---
+# CI SAP HANA Playbook
+- hosts: ucs
+  connection: local
+  collections:
+  - cisco.ucs
+  gather_facts: no
+  vars:
+    login_info: &login_info
+      hostname: "{{ ucs_hostname }}"
+      username: "{{ ucs_username | default(omit) }}"
+      password: "{{ ucs_password | default('password') }}"
+      state: "{{ ucs_state | default(omit) }}"
+  tasks:
+    - name: Create Service Profile Template for SAP HANA Scale Up
+      ucs_service_profile_template:
+        <<: *login_info
+        org_dn: "{{ var_org }}"
+        name: "{{ var_sp_template_scale_up_local }}"
+        template_type: updating-template
+        uuid_pool: "{{ var_uuid_pool_name }}"
+        lan_connectivity_policy: "{{ var_local_boot_hana_scale_up }}"
+        local_disk_policy: "{{ var_local_disk }}"
+        boot_policy: "{{ var_local_boot_policy_name }}"
+        maintenance_policy: default
+        host_firmware_package: "{{ var_host_fw_name }}"
+        bios_policy: "{{ var_bios_name }}"
+        power_control_policy: "{{ var_pw_ctrl_name }}"
+        sol_policy: "{{ var_sol_name }}"
+      delegate_to: localhost 
+    - name: Assign vNIC/vHBA placement policy to Service Profile Template
+      ucs_managed_objects: 
+          <<: *login_info
+          objects:
+          - module: ucsmsdk.mometa.ls.LsServer
+            class: LsServer
+            properties:
+              parent_mo_or_dn: "{{ var_org }}"
+              name: "{{ var_sp_template_scale_up_local }}"
+              vcon_profile_name: "{{ var_vnic_placement_name }}"
+    - name: Assign vCon placement to Service Profile Template
+      ucs_managed_objects:
+          <<: *login_info
+          objects:
+          - module: ucsmsdk.mometa.ls.LsServer
+            class: LsServer
+            properties:
+              parent_mo_or_dn: "{{ var_org }}"
+              name: "{{ var_sp_template_scale_up_local }}"
+            children:
+              - module: ucsmsdk.mometa.ls.LsVConAssign
+                class: LsVConAssign
+                properties:
+                  admin_vcon: '1'
+                  order: '1'
+                  transport: ethernet
+                  vnic_name: HANA-node-admin
+              - module: ucsmsdk.mometa.ls.LsVConAssign
+                class: LsVConAssign
+                properties:
+                  admin_vcon: '1'
+                  order: '2'
+                  transport: ethernet
+                  vnic_name: HANA-node-backup
+              - module: ucsmsdk.mometa.ls.LsVConAssign
+                class: LsVConAssign
+                properties:
+                  admin_vcon: '1'
+                  order: '3'
+                  transport: ethernet
+                  vnic_name: HANA-AppServer
+              - module: ucsmsdk.mometa.ls.LsVConAssign
+                class: LsVConAssign
+                properties:
+                  admin_vcon: '3'
+                  order: '1'
+                  transport: ethernet
+                  vnic_name: HANA-data
+              - module: ucsmsdk.mometa.ls.LsVConAssign
+                class: LsVConAssign
+                properties:
+                  admin_vcon: '3'
+                  order: '2'
+                  transport: ethernet
+                  vnic_name: HANA-log

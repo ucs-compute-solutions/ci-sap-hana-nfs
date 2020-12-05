@@ -1,0 +1,52 @@
+---
+# CI SAP HANA Playbook
+- hosts: ucs
+  connection: local
+  collections:
+  - cisco.ucs
+  gather_facts: no
+  tasks:
+    - name: Create Optional VLAN Group for Backup
+      ucs_managed_objects:
+        hostname: "{{ ucs_hostname }}"
+        username: "{{ ucs_username }}"
+        password: "{{ ucs_password }}"
+        state: "{{ ucs_state }}"
+        objects:
+        - {
+              "module": "ucsmsdk.mometa.fabric.FabricNetGroup",
+              "class": "FabricNetGroup",
+              "properties": {
+                  "parent_mo_or_dn": "fabric/lan",
+                  "native_net": "",
+                  "name": "{{ var_vlan_group_name_backup }}"
+              },
+
+              "children": [
+                  {
+                      "module": "ucsmsdk.mometa.fabric.FabricPooledVlan",
+                      "class": "FabricPooledVlan",
+                      "properties": {
+                          "name": "{{ hana_backup_vlan_name }}"
+                      }
+                  },
+                  {
+                      "module": "ucsmsdk.mometa.fabric.FabricEthVlanPc",
+                      "class": "FabricEthVlanPc",
+                      "properties": {
+                          "name": "{{ fi_a_po_backup_name }}",
+                          "switch_id": "A",
+                          "port_id": "{{ fi_a_po_backup_id }}"
+                      }
+                  },
+                  {
+                      "module": "ucsmsdk.mometa.fabric.FabricEthVlanPc",
+                      "class": "FabricEthVlanPc",
+                      "properties": {
+                          "name": "{{ fi_b_po_backup_name }}",
+                          "switch_id": "B",
+                          "port_id": "{{ fi_b_po_backup_id }}"
+                      }
+                  }
+              ]
+        }

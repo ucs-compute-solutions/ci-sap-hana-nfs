@@ -1,0 +1,25 @@
+---
+# CI SAP HANA Playbook
+- hosts: ucs
+  connection: local
+  collections:
+  - cisco.ucs
+  gather_facts: no
+  tasks:
+    - name: Create Power Control Policy no cap
+      ucs_managed_objects: 
+        hostname: "{{ ucs_hostname }}"
+        username: "{{ ucs_username }}"
+        password: "{{ ucs_password }}"
+        state: "{{ ucs_state }}"
+        objects:      
+          - {
+              "module": "ucsmsdk.mometa.power.PowerPolicy",
+              "class": "PowerPolicy",
+              "properties": {
+                  "parent_mo_or_dn": "{{ var_org }}",
+                  "name": "{{ var_pw_ctrl_name }}",
+                  "prio": "no-cap",
+                  "fan_speed": "any"
+              }
+            }   

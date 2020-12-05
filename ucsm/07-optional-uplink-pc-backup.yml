@@ -1,0 +1,55 @@
+---
+# CI SAP HANA Playbook
+- hosts: ucs
+  connection: local
+  collections:
+  - cisco.ucs
+  gather_facts: no
+  tasks:
+    - name: Create Uplink Port-Channel for Backup network on the UCS Fabric Interconnect
+      ucs_managed_objects:
+        hostname: "{{ ucs_hostname }}"
+        username: "{{ ucs_username }}"
+        password: "{{ ucs_password }}"
+        state: "{{ ucs_state }}"
+        objects:
+      # uplink port-channel
+        - {
+              "module": "ucsmsdk.mometa.fabric.FabricEthLanPc",
+              "class": "FabricEthLanPc",
+              "properties": {
+                  "parent_mo_or_dn": "fabric/lan/A",
+                  "name": "{{ fi_a_po_backup_name }}",
+                  "port_id": "{{ fi_a_po_backup_id }}"
+          },
+              "children": [
+                  {
+                       "module": "ucsmsdk.mometa.fabric.FabricEthLanPcEp",
+                       "class": "FabricEthLanPcEp",
+                       "properties": {
+                           "port_id": "{{ item }}",
+                           "slot_id": "1"
+                       }
+                  }
+               ]
+          }
+        - {
+              "module": "ucsmsdk.mometa.fabric.FabricEthLanPc",
+              "class": "FabricEthLanPc",
+              "properties": {
+                  "parent_mo_or_dn": "fabric/lan/B",
+                  "name": "{{ fi_b_po_backup_name }}",
+                  "port_id": "{{ fi_b_po_backup_id }}"
+               },
+               "children": [
+                  {
+                      "module": "ucsmsdk.mometa.fabric.FabricEthLanPcEp",
+                      "class": "FabricEthLanPcEp",
+                      "properties": {
+                          "port_id": "{{ item }}",
+                          "slot_id": "1"
+                      }
+                  }
+              ]
+          }
+      with_sequence: start="{{ backup_network_port_id_start }}" end="{{ backup_network_port_id_end }}"

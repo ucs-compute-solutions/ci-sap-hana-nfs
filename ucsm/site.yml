@@ -1,0 +1,32 @@
+---
+# FlexPod HANA complete UCS Config
+- import_playbook: 01-ip-kvm.yml
+- import_playbook: 02-ntp-config.yml
+- import_playbook: 03-chassis-discovery.yml
+- import_playbook: 04-server-ports.yml
+- import_playbook: 05-qos-system.yml
+- import_playbook: 06-network-ports.yml
+- import_playbook: 07-uplink-pc.yml
+- import_playbook: 08-create-org.yml
+- import_playbook: 09-mac-pool.yml
+- import_playbook: 10-uuid-pool.yml
+- import_playbook: 11-iqn-pool.yml
+- import_playbook: 12-ip-pool-iscsi-boot.yml
+- import_playbook: 13-psu-policy.yml
+- import_playbook: 14-power-control.yml
+- import_playbook: 15-network-control.yml
+- import_playbook: 16-host-fw.yml
+- import_playbook: 17-local-disk-raid1.yml
+- import_playbook: 18-server-bios.yml
+- import_playbook: 19-serial-over-lan.yml
+- import_playbook: 20-maintenance-policy.yml
+- import_playbook: 21-create-vlans.yml
+- import_playbook: 22-optional-vlan-group.yml
+- import_playbook: 22-vlan-group.yml
+- import_playbook: 23-ethernet-adapter.yml
+- import_playbook: 24-qos-policy.yml
+- import_playbook: 25-vnic-template.yml
+- import_playbook: 26-vnic-placement.yml
+- import_playbook: 27-lan-conn-iscsi-boot-scale-up.yml
+- import_playbook: 28-lan-conn-iscsi-boot-scale-out.yml
+- import_playbook: 29-iscsi-boot-policy.yml

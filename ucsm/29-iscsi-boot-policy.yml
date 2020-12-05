@@ -1,0 +1,62 @@
+---
+# CI SAP HANA Playbook
+- hosts: ucs
+  connection: local
+  collections:
+  - cisco.ucs
+  gather_facts: no
+  tasks:
+  - name: Create iSCSI Boot Policy
+    ucs_managed_objects: 
+      hostname: "{{ ucs_hostname }}"
+      username: "{{ ucs_username }}"
+      password: "{{ ucs_password }}"
+      state: "{{ ucs_state }}"
+      objects:
+      - {
+        "module": "ucsmsdk.mometa.lsboot.LsbootPolicy",
+        "class": "LsbootPolicy",
+        "properties": {
+            "parent_mo_or_dn": "{{ var_org }}",
+            "boot_mode": "legacy",
+            "enforce_vnic_name": "yes",
+            "name": "{{ var_iscsi_boot_policy_name }}",
+            "reboot_on_update": "no"
+        },
+        "children": [
+            {
+                "module": "ucsmsdk.mometa.lsboot.LsbootVirtualMedia",
+                "class": "LsbootVirtualMedia",
+                "properties": {
+                    "access": "read-only",
+                    "lun_id": "0",
+                    "order": "1"
+                }
+            },
+            {
+                "module": "ucsmsdk.mometa.lsboot.LsbootIScsi",
+                "class": "LsbootIScsi",
+                "properties": {
+                    "order": "2"
+                },
+                "children": [
+                    {
+                        "module": "ucsmsdk.mometa.lsboot.LsbootIScsiImagePath",
+                        "class": "LsbootIScsiImagePath",
+                        "properties": {
+                            "i_scsi_vnic_name": "iSCSI-Boot-A",
+                            "type": "primary"
+                        }
+                    },
+                    {
+                        "module": "ucsmsdk.mometa.lsboot.LsbootIScsiImagePath",
+                        "class": "LsbootIScsiImagePath",
+                        "properties": {
+                            "i_scsi_vnic_name": "iSCSI-Boot-B",
+                            "type": "secondary"
+                        }
+                    }
+                ]
+            }
+        ]
+      }

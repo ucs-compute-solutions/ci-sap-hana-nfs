@@ -1,0 +1,28 @@
+---
+# CI SAP HANA Playbook
+- hosts: ucs
+  connection: local
+  collections:
+  - cisco.ucs
+  gather_facts: no
+  tasks:
+    - name: Create MAC Address Pool
+      ucs_mac_pool:
+        hostname: "{{ ucs_hostname }}"
+        username: "{{ ucs_username }}"
+        password: "{{ ucs_password }}"
+        state: "{{ ucs_state }}"
+        name: "{{ var_mac_fi_a }}"
+        first_addr: "{{ var_mac_a_first_addr }}"
+        last_addr: "{{ var_mac_a_last_addr }}"
+        order: sequential
+    - name: Configure MAC address pool
+      ucs_mac_pool:
+        hostname: "{{ ucs_hostname }}"
+        username: "{{ ucs_username }}"
+        password: "{{ ucs_password }}"
+        state: "{{ ucs_state }}"
+        name: "{{ var_mac_fi_b }}"
+        first_addr: "{{ var_mac_b_first_addr }}"
+        last_addr: "{{ var_mac_b_last_addr }}"
+        order: sequential

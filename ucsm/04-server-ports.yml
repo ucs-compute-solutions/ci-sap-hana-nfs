@@ -1,0 +1,53 @@
+---
+# CI SAP HANA Playbook
+- hosts: ucs
+  connection: local
+  collections:
+  - cisco.ucs
+  gather_facts: no
+  tasks:
+    - name: Enable Server Ports on the UCS Fabric Interconnect
+      ucs_managed_objects:
+        hostname: "{{ ucs_hostname }}"
+        username: "{{ ucs_username }}"
+        password: "{{ ucs_password }}"
+        state: "{{ ucs_state }}"
+        objects:
+  # server ports
+        - {
+              "module": "ucsmsdk.mometa.fabric.FabricDceSwSrv",
+              "class": "FabricDceSwSrv",
+              "properties": {
+                  "parent_mo_or_dn": "fabric/server",
+                  "id": "A"
+               },
+              "children": [
+                  {
+                      "module": "ucsmsdk.mometa.fabric.FabricDceSwSrvEp",
+                      "class": "FabricDceSwSrvEp",
+                      "properties": {
+                          "port_id": "{{ item }}",
+                          "slot_id": "1"
+                      }
+                  }
+              ]
+          }
+        - {
+              "module": "ucsmsdk.mometa.fabric.FabricDceSwSrv",
+              "class": "FabricDceSwSrv",
+              "properties": {
+                  "parent_mo_or_dn": "fabric/server",
+                  "id": "B"
+              },
+              "children": [
+                  {
+                      "module": "ucsmsdk.mometa.fabric.FabricDceSwSrvEp",
+                      "class": "FabricDceSwSrvEp",
+                      "properties": {
+                          "port_id": "{{ item }}",
+                          "slot_id": "1"
+                      }
+                  }
+              ]
+          }
+      with_sequence: start="{{ server_port_id_start }}" end="{{ server_port_id_end }}"

@@ -1,0 +1,2 @@
+[ucs]
+flexpod ucs_hostname=192.168.10.10 ucs_username=admin ucs_password=ucs4sap! ucs_state=present

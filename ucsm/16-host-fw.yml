@@ -1,0 +1,25 @@
+---
+# CI SAP HANA Playbook
+- hosts: ucs
+  connection: local
+  collections:
+  - cisco.ucs
+  gather_facts: no
+  tasks:
+  - name: Create Host Firmware Package Policy
+    ucs_managed_objects: 
+      hostname: "{{ ucs_hostname }}"
+      username: "{{ ucs_username }}"
+      password: "{{ ucs_password }}"
+      state: "{{ ucs_state }}"
+      objects:      
+      - {
+           "module": "ucsmsdk.mometa.firmware.FirmwareComputeHostPack",
+           "class": "FirmwareComputeHostPack",
+           "properties": {
+              "parent_mo_or_dn": "org-root",
+              "blade_bundle_version": "{{ var_blade_bundle_verion }}",
+              "rack_bundle_version": "{{ var_rack_bundle_verion }}",
+              "name": "{{ var_host_fw_name }}"
+            }
+      }

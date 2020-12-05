@@ -1,0 +1,23 @@
+---
+# CI SAP HANA Playbook
+- hosts: ucs
+  connection: local
+  collections:
+  - cisco.ucs
+  gather_facts: no
+  tasks:
+    - name: Synchronize NTP
+      ucs_ntp_server:
+        hostname: "{{ ucs_hostname }}"
+        username: "{{ ucs_username }}"
+        password: "{{ ucs_password }}"
+        state: "{{ ucs_state }}"
+        ntp_server: "{{ var_ntp_server1 }}"
+    - name: Configure Time Zone
+      ucs_timezone:
+        hostname: "{{ ucs_hostname }}"
+        username: "{{ ucs_username }}"
+        password: "{{ ucs_password }}"
+        state: "{{ ucs_state }}"
+        admin_state: enabled
+        timezone: "{{ var_ucs_timezone }}"

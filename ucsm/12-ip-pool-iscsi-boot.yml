@@ -1,0 +1,32 @@
+---
+# CI SAP HANA Playbook
+- hosts: ucs
+  connection: local
+#  collections:
+#  - cisco.ucs
+  gather_facts: no
+  tasks:
+    - name: Create IP Pools for iSCSI-A
+      ucs_ip_pool:
+        hostname: "{{ ucs_hostname }}"
+        username: "{{ ucs_username }}"
+        password: "{{ ucs_password }}"
+        state: "{{ ucs_state }}"
+        org_dn: "{{ var_org }}"
+        name: "{{ var_iscsi_A_ip_pool_name }}"
+        order: sequential
+        first_addr: "{{ var_iscsi_A_first_ip }}"
+        last_addr: "{{ var_iscsi_A_last_ip }}"
+        subnet_mask: "{{ var_iscsi_A_ip_subnet }}"
+    - name: Create IP Pools for iSCSI-B
+      ucs_ip_pool:
+        hostname: "{{ ucs_hostname }}"
+        username: "{{ ucs_username }}"
+        password: "{{ ucs_password }}"
+        state: "{{ ucs_state }}"
+        org_dn: "{{ var_org }}"
+        name: "{{ var_iscsi_B_ip_pool_name }}"
+        order: sequential
+        first_addr: "{{ var_iscsi_B_first_ip }}"
+        last_addr: "{{ var_iscsi_B_last_ip }}"
+        subnet_mask: "{{ var_iscsi_B_ip_subnet }}"

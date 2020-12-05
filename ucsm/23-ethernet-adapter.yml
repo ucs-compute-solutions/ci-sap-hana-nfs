@@ -1,0 +1,70 @@
+---
+# CI SAP HANA Playbook
+- hosts: ucs
+  connection: local
+  collections:
+  - cisco.ucs
+  gather_facts: no
+  tasks:
+  - name: Create Ethernet Adapter Policy for SAP HANA
+    ucs_managed_objects: 
+      hostname: "{{ ucs_hostname }}"
+      username: "{{ ucs_username }}"
+      password: "{{ ucs_password }}"
+      state: "{{ ucs_state }}"
+      objects:      
+        - {
+            "module": "ucsmsdk.mometa.adaptor.AdaptorHostEthIfProfile",
+            "class": "AdaptorHostEthIfProfile",
+            "properties": {
+                "parent_mo_or_dn": "{{ var_org }}",
+                "name": "{{ var_eth_adapter_name }}",
+                "descr": "For HANA Inter-node Network"
+            },
+            "children": [
+                {
+                    "module": "ucsmsdk.mometa.adaptor.AdaptorEthWorkQueueProfile",
+                    "class": "AdaptorEthWorkQueueProfile",
+                    "properties": {
+                        "count": "8",
+                        "ring_size": "4096"
+                    }
+                },
+                {
+                    "module": "ucsmsdk.mometa.adaptor.AdaptorEthRecvQueueProfile",
+                    "class": "AdaptorEthRecvQueueProfile",
+                    "properties": {
+                        "count": "8",
+                        "ring_size": "4096"
+                    }
+                },
+                {
+                    "module": "ucsmsdk.mometa.adaptor.AdaptorEthCompQueueProfile",
+                    "class": "AdaptorEthCompQueueProfile",
+                    "properties": {
+                        "count": "16"
+                    }
+                },
+                {
+                    "module": "ucsmsdk.mometa.adaptor.AdaptorEthInterruptProfile",
+                    "class": "AdaptorEthInterruptProfile",
+                    "properties": {
+                        "count": "32"
+                    }
+                },
+                {
+                    "module": "ucsmsdk.mometa.adaptor.AdaptorRssProfile",
+                    "class": "AdaptorRssProfile",
+                    "properties": {
+                        "receive_side_scaling": "enabled"
+                    }
+                },
+                {
+                    "module": "ucsmsdk.mometa.adaptor.AdaptorEthArfsProfile",
+                    "class": "AdaptorEthArfsProfile",
+                    "properties": {
+                        "accelarated_rfs": "disabled"
+                    }
+                }
+            ]
+          }

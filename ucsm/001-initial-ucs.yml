@@ -1,0 +1,16 @@
+---
+# Initial UCS Config
+- import_playbook: 01-ip-kvm.yml
+- import_playbook: 02-ntp-config.yml
+- import_playbook: 03-chassis-discovery.yml
+- import_playbook: 04-server-ports.yml
+- import_playbook: 05-qos-system.yml
+- import_playbook: 06-network-ports.yml
+- import_playbook: 07-uplink-pc.yml
+- import_playbook: 09-mac-pool.yml
+- import_playbook: 10-uuid-pool.yml
+- import_playbook: 13-psu-policy.yml
+- import_playbook: 14-power-control.yml
+- import_playbook: 15-network-control.yml
+- import_playbook: 16-host-fw.yml
+- import_playbook: 20-maintenance-policy.yml

@@ -1,0 +1,18 @@
+---
+# CI SAP HANA Playbook
+- hosts: ucs
+  connection: local
+  collections:
+  - cisco.ucs
+  gather_facts: no
+  tasks:
+    - name: Create Network Control Policy
+      ucs_network_control:
+        hostname: "{{ ucs_hostname }}"
+        username: "{{ ucs_username }}"
+        password: "{{ ucs_password }}"
+        state: "{{ ucs_state }}"
+        name: "{{ var_nw_ctrl }}"
+        cdp: enabled
+        lldp_transmit: enabled
+        lldp_receive: enabled
