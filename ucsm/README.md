@@ -1,4 +1,4 @@
-To configure Cisco UCS for SAP HANA below are the list of tasks: 
+To configure Cisco UCS for SAP HANA below are the task performed by respective playbook, variables are defined in group_vars/all.yml
 
 01. Add Block of IP Address for KVM
 02. Configure UCS to synchronize with NTP Server
