@@ -7,3 +7,15 @@ The anible playbooks can be used configure FlexPod Datacenter for SAP Solution: 
 To get started with Ansible for Cisco UCS, please refer to https://github.com/ciscoucs/ucsm-ansible
 
 For latest Ansible collection for managing and automing Cisco UCS Manager envrionments please refer to https://galaxy.ansible.com/cisco/ucs
+
+The deployment of the whole solution consists of below main steps:
+
+1. Cisco Nexus Switch Configuration
+
+2. Cisco UCS Manager Configuration
+      
+3. Configure Storage as per SAP HANA TDI Storage requirement: This repo doesn't provide storage configuration playbooks.
+
+4. Install Operating System on Servers and Configure Operating Systems as per SAP HANA requirement
+
+
