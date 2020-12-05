@@ -7,7 +7,7 @@ inventory file will created, based on dhcp reservation
 
 To configure OS for SAP HANA below are the list of tasks: 
 
-01:	Set IP address for all the interface other than management interface eth0 (which gerts IP from dhcp server)
+01:	Set IP address for all the interface other than management interface eth0 (which gets IP from dhcp server)
 
 02:	Set the NTP server on the OS
 
