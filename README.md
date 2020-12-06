@@ -8,7 +8,7 @@ To get started with Ansible for Cisco UCS, please refer to https://github.com/ci
 
 For latest Ansible collection for managing and automing Cisco UCS Manager envrionments please refer to https://galaxy.ansible.com/cisco/ucs
 
-The deployment of the whole solution consists of below main steps:
+Below are the main steps to deploy complete SAP HANA solution:
 
 1. Cisco Nexus Switch Configuration, please see README.md under nxos folder
 
