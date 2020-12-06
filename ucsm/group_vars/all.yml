@@ -11,7 +11,6 @@ var_kvm_ip_gateway: 172.29.10.1
 var_dns_server1: 172.29.10.20
 
 # 02. Synchronize NTP
-#var_ntp_server1: 172.29.10.16
 var_ntp_server1: pool.ntp.org
 var_ucs_timezone: America/Los_Angeles
 
@@ -44,7 +43,6 @@ fi_b_po_backup_name: Anible-Backup-B
 fi_b_po_backup_id: "44"
 
 # 08. Create New Org
-#var_org_name: flexpod-hana
 var_org_name: DEMO-FP-HANA
 var_org: org-root/org-DEMO-FP-HANA
 
