@@ -10,12 +10,12 @@ For latest Ansible collection for managing and automing Cisco UCS Manager envrio
 
 The deployment of the whole solution consists of below main steps:
 
-1. Cisco Nexus Switch Configuration
+1. Cisco Nexus Switch Configuration, please see nxos folder
 
-2. Cisco UCS Manager Configuration
+2. Cisco UCS Manager Configuration, please see ucsm folder
       
 3. Configure Storage as per SAP HANA TDI Storage requirement: This repo doesn't provide storage configuration playbooks.
 
-4. Install Operating System on Servers and Configure Operating Systems as per SAP HANA requirement
+4. Install Operating System on Servers and Configure Operating Systems as per SAP HANA requirement. Please see os folder. 
 
 
