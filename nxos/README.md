@@ -8,6 +8,6 @@ To configure the switches completly run
 
     ansible-playbook -i inventory site.yml 
 
-To run a single playbook run
+To run a single playbook, see example below
 
-    ansible-playbook -i inventory site.yml 01-features-gobal-settings.yml
+    ansible-playbook -i inventory 01-features-gobal-settings.yml
