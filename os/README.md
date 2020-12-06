@@ -12,6 +12,10 @@ To configure OS for SAP HANA below are the list of tasks:
 02:	Set the NTP server on the OS
 
 03:	Set hostname as per SAP HANA
+    
+    Adapt the /etc/hosts file as per your requirement, example /etc/hosts file is in 
+    os/config_files/su_hosts for scale up system  
+    os/config_files/so_hosts for scale out system
 
 04:	Register the server for RedHat for SAP Solutions update
 
