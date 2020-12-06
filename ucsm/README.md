@@ -1,4 +1,19 @@
-To configure Cisco UCS for SAP HANA below are the task performed by respective playbook, variables are defined in group_vars/all.yml
+To configure the Cisco UCS as per SAP HANA CVD.
+
+Adapt the variables under group_vars/all.yml
+
+Adapt the inventory file with Management IP of the Fabric Interconnect and admin's password. 
+
+To configure the UCSM completly run
+
+    ansible-playbook -i inventory site.yml
+
+To run a single playbook, see example below. 
+
+    ansible-playbook -i inventory 08-create-org.yml
+
+
+To configure Cisco UCS for SAP HANA below are the task performed by respective playbook, all variables are defined in group_vars/all.yml
 
 01: Add Block of IP Address for KVM
 
