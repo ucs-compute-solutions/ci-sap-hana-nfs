@@ -1,5 +1,5 @@
 ---
-# FlexPod HANA Playbook
+# CI SAP HANA Playbook
 #
 - hosts: n9k
   connection: network_cli

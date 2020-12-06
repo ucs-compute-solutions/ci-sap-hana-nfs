@@ -1,5 +1,5 @@
 ---
-# FlexPod HANA Playbook
+# CI SAP HANA Playbook
 #
 - hosts: n9k
   connection: network_cli
@@ -12,14 +12,14 @@
           mode: layer2
           enabled: yes
     with_list: "{{ all_interfaces + all_port_channels }}"
-  - name: Add Ports to peer-link Port-Channel
-    nxos_lag_interfaces:
-      config:
-        - name: "{{ peerlink_PC[0].interface }}"
-          members:
-            - member: "{{ item.interface }}"
-              mode: active
-    with_list: "{{ vpc_interface_list }}"
+#  - name: Add Ports to peer-link Port-Channel
+#    nxos_lag_interfaces:
+#      config:
+#        - name: "{{ peerlink_PC[0].interface }}"
+#          members:
+#            - member: "{{ item.interface }}"
+#              mode: active
+#    with_list: "{{ vpc_interface_list }}"
   - name: Add Ports to management switch Port-Channel
     nxos_lag_interfaces:
       config:
@@ -77,7 +77,8 @@
         - name: "{{ item.interface }}"
           trunk:
             allowed_vlans: "{{ all_vlans_list }}"
-    with_list: "{{ peerlink_PC + FI_A_PC + FI_B_PC }}"
+    with_list: "{{ FI_A_PC + FI_B_PC }}"
+#    with_list: "{{ peerlink_PC + FI_A_PC + FI_B_PC }}"
 #
 # Configure VLANs mgmt Port-Channels
 #
