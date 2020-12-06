@@ -199,7 +199,7 @@ var_sp_scale_out_name7: HANA-SO-D07
 var_sp_scale_out_name8: HANA-SO-D08
 
 
-# 81. Pre-OS Install UCS Tasks
+# 71. Pre-OS Install UCS Tasks
 var_vmedia_policy_name: rhel8 
 var_image_file_name: rhel81-ks.iso
 var_image_path: '/software'
