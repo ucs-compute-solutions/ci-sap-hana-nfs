@@ -1,6 +1,6 @@
 OS Installation has been performed with customized Red Hat Enterprise Linux 8.1 ISO with kickstart. 
 
-Example Kickstart file is located under os/kickstart
+Example Kickstart file is located under os/kickstart.
 
 Post OS installation, server will be assigned with management IP address from the dhcp server reservation. 
 inventory file will created, based on dhcp reservation
@@ -36,5 +36,23 @@ To configure OS for SAP HANA below are the list of tasks:
 21: Mount the volumes created on storage for SAP HANA persistent storage.
 
 
+To configure the RHEL OS as per SAP HANA CVD.
+
+Adapt the variables under group_vars/all.yml and host_vars/
+
+Adapt the inventory file with Management IP of the OS. 
+
+To configure the OS for SAP HANA completly run
+
+    ansible-playbook -i inventory site.yml 
+
+To run a single playbook, see example below
+
+    ansible-playbook -i inventory 99-reboot.yml
+    
+To configure Intel DCPMM for SAP HANA run 
+
+    ansible-playbook -i inventory 11-optane-install-tools.yml
+    ansible-playbook -i inventory 12-configure-optane.yml
 
 
