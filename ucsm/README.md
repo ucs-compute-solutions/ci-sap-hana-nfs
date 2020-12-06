@@ -4,7 +4,7 @@ Adapt the variables under group_vars/all.yml
 
 Adapt the inventory file with Management IP of the Fabric Interconnect and admin's password. 
 
-To configure the UCSM completly run
+To configure the UCSM completly for SAP HANA Solution run
 
     ansible-playbook -i inventory site.yml
 
