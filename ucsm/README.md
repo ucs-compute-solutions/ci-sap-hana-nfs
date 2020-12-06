@@ -89,3 +89,8 @@ To configure Cisco UCS for SAP HANA below are the task performed by respective p
 
 61: Associate Service Profile to Server
 
+For Automatic OS installation from custom ISO with kickstart file
+
+71: Install OS using vMedia policy from ISO image on http server
+
+72: After OS Installation remove vMedia policy and protect the RAID 1 local disk configuration 
