@@ -3,7 +3,9 @@
 Ansible collection for managing and automing Cisco UCS Manager envrionments. Modules and roles are provided for common Cisco UCS Manager tasks.
 
 # Requirements
+
 Ansible v2.8 or newer
+
 UCSM Python SDK (ucsmsdk)
 
 # Install
