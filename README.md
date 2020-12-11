@@ -18,4 +18,23 @@ Below are the main steps to deploy complete SAP HANA solution:
 
 4. Install Operating System on Servers and Configure Operating Systems as per SAP HANA requirement. Please see README.md under os folder. 
 
+# Example Usage to configure the complete solution for SAP HANA.  
+
+Once Ansible is installed please adopt inventory files and variable files to run playbooks. 
+
+1. To configure Cisco Nexus Switches:
+
+      ansible-playbook -i nxos/inventory nxos/site.yml
+      
+2. To configure Cisco UCS Manager: 
+
+      ansible-playbook -i ucsm/inventory ucsm/site.yml
+
+3. Configure the NFS Storage as SAP HANA TDI Storage Requirement. 
+
+4. Install the RHEL Operating System on Servers with customized Red Hat Enterprise Linux ISO with kickstart and vMedia policy on UCS Manager. 
+
+5. To configure Operating Systems as per SAP HANA requirement:
+
+      ansible-playbook -i os/inventory os/site.yml
 
