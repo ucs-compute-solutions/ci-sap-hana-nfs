@@ -24,11 +24,11 @@ Once Ansible is installed please adopt inventory files and variable files to run
 
 1. To configure Cisco Nexus Switches:
 
-      ansible-playbook -i nxos/inventory nxos/site.yml
+            ansible-playbook -i nxos/inventory nxos/site.yml
       
 2. To configure Cisco UCS Manager: 
 
-      ansible-playbook -i ucsm/inventory ucsm/site.yml
+            ansible-playbook -i ucsm/inventory ucsm/site.yml
 
 3. Configure the NFS Storage as SAP HANA TDI Storage Requirement. 
 
@@ -36,5 +36,5 @@ Once Ansible is installed please adopt inventory files and variable files to run
 
 5. To configure Operating Systems as per SAP HANA requirement:
 
-      ansible-playbook -i os/inventory os/site.yml
+            ansible-playbook -i os/inventory os/site.yml
 
