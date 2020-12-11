@@ -41,9 +41,7 @@ To run a single playbook, see example below.
 
 Although each task is breakdown into one playbook, different playbooks can be combined or removed as per requirement as shown in site.yml
 
-# To configure Cisco UCS for SAP HANA below are the task performed by respective playbook: 
-
-All variables are defined in group_vars/all.yml, please update variable file as per your site requirement
+#  Below are the task performed by each playbook: 
 
 01: Add Block of IP Address for KVM
 
