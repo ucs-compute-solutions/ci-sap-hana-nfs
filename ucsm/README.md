@@ -1,8 +1,33 @@
-To configure the Cisco UCS as per SAP HANA CVD.
+# Ansible Collection - cisco.ucs
+
+Ansible collection for managing and automing Cisco UCS Manager envrionments. Modules and roles are provided for common Cisco UCS Manager tasks.
+
+# Requirements
+Ansible v2.8 or newer
+UCSM Python SDK (ucsmsdk)
+
+# Install
+
+ansible must be installed
+          
+    sudo pip install ansible
+
+ucsmsdk must be installed
+      
+    sudo pip install ucsmsdk
+
+# To configure the Cisco UCS as per SAP HANA CVD.
 
 Adapt the variables under group_vars/all.yml
 
 Adapt the inventory file with Management IP of the Fabric Interconnect and admin's password. 
+
+This repository includes a playbooks directory with examples including an inventory file that can be edited with information for the UCSM domain you want to configure:
+
+    # vi inventory
+
+    [ucs]
+    ucspod ucs_hostname=192.168.10.10 ucs_username=admin ucs_password=password ucs_state=present
 
 To configure the UCSM completly for SAP HANA Solution run
 
@@ -12,8 +37,9 @@ To run a single playbook, see example below.
 
     ansible-playbook -i inventory 08-create-org.yml
 
+Although each task is breakdown into one playbook, different playbooks can be combined or removed as per requirement as shown in site.yml
 
-To configure Cisco UCS for SAP HANA below are the task performed by respective playbook, all variables are defined in group_vars/all.yml
+# To configure Cisco UCS for SAP HANA below are the task performed by respective playbook, all variables are defined in group_vars/all.yml
 
 01: Add Block of IP Address for KVM
 
@@ -89,7 +115,7 @@ To configure Cisco UCS for SAP HANA below are the task performed by respective p
 
 61: Associate Service Profile to Server
 
-For Automatic OS installation from custom ISO with kickstart file
+# For Automatic OS installation from custom ISO with kickstart file
 
 71: Install OS using vMedia policy from ISO image on http server
 
