@@ -5,7 +5,7 @@ Example Kickstart file is located under os/kickstart.
 Post OS installation, server will be assigned with management IP address from the dhcp server reservation. 
 inventory file will created, based on dhcp reservation
 
-To configure OS for SAP HANA below are the list of tasks: 
+# To configure OS for SAP HANA below are the list of tasks: 
 
 01:	Set IP address for all the interface other than management interface eth0 (which gets IP from dhcp server)
 
@@ -36,7 +36,7 @@ To configure OS for SAP HANA below are the list of tasks:
 21: Mount the volumes created on storage for SAP HANA persistent storage.
 
 
-To configure the RHEL OS as per SAP HANA CVD.
+# To configure the RHEL OS as per SAP HANA CVD.
 
 Adapt the variables under group_vars/all.yml and host_vars/
 
