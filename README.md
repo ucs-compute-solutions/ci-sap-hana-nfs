@@ -1,3 +1,5 @@
+[![published](https://static.production.devnetcloud.com/codeexchange/assets/images/devnet-published.svg)](https://developer.cisco.com/codeexchange/github/repo/ucs-compute-solutions/ci-sap-hana-nfs)
+
 # Cisco UCS Converged Infrastructure for SAP HANA with NFS Storage
 
 Ansible playbooks to configure Cisco UCS, Cisco Nexus, OS Installation and Configuration for HANA
